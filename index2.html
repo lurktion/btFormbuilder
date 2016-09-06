@@ -1,0 +1,72 @@
+<script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="./btFormBuilder.js"></script>
+<div class="col-sm-6 col-sm-offset-2" >
+<form id="test" role="form" rank="false" class="form-horizontal" labcol=3 feild=6 />
+</form>
+</div>
+<script>
+var obj = {option1:"test1",option2:"test2",option3:"test3"}
+
+$('#test').btFormBuilder({
+	columns:[{
+		label:"姓名",
+		name:"xingming",
+		type:"input",
+		placeholder:"1111111111"
+	},{
+		label:"手机",
+		name:"shouji",
+		type:"input"
+	},{
+		label:"密码",
+		name:"password",
+		type:"password",
+		placeholder:"1111111111"
+	},{
+		label:"电话",
+		name:"dianhua",
+		type:"input"
+	},{
+		label:"qq",
+		name:"qq",
+		type:"input"
+	},{
+		label:"邮箱",
+		type:"input",
+		name:"email"
+	},{
+		label:"是否关键人",
+		name:"shifugjr",
+		type:"checkbox",
+		inline:"true",
+		option:{0:"是",1:"否"}
+	},{
+		label:"职位",
+		name:"zhiwei",
+		type:"input"
+	},{
+		label:"生日",
+		name:"shengri",
+		type:"input"
+		
+	},{
+		label:"是否第一联系人",
+		name:"shfdylxr",
+		type:"select",
+		option:{0:"是",1:"否"}
+	},{
+		label:"验证码",
+		name:"verify",
+		imgsrc:"1.jpg",
+		type:"verify"
+	},{
+		label:"",
+		name:"button",
+		type:"button"
+	}]
+});
+
+
+</script>
