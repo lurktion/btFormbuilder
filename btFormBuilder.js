@@ -1,11 +1,6 @@
-
 (function($) {
-	method = {
-		name:undefined,
-		type:undefined
-	};
-
   $.fn.btFormBuilder = function(methods){
+		var myvalid={};
 		var sizecol = $(this).attr('sizecol');
 		if(sizecol == "lg"){
 			sizecol = 'input-lg';
@@ -42,12 +37,25 @@
 
 		var a = methods.columns
 		for(var i = 0;i < a.length; i++) {
+			
+			
 			var choseid = 'div_'+a[i].name;
-			var dom_id = a[i].name;
+			if(typeof(a[i].id) == "string"){
+					var dom_id = a[i].id;
+			}else{
+					var dom_id = a[i].name;
+			}
+			
 			var dom_name = a[i].name;
 			var labeltext = a[i].label;
 			var placeholder = a[i].placeholder;
-
+			var type=a[i].type;
+			if(typeof(a[i].value) == "string"){
+				var dom_value = a[i].value;
+			}else{
+				var dom_value = '';
+			}
+			
 			$(this).append("<div class='form-group' id='"+choseid+"'>");
 			
 			if (typeof(labeltext) === "string"){
@@ -68,12 +76,69 @@
 			}else{
 				placeholder='';
 			}
+			//==========valid==============
+			var notEmpty = undefined;
+			var stringLength = undefined;
+			var regexp = undefined;
+			var identical = undefined;
+			var different = undefined;
+			var emailAddress = undefined;
+			var threshold = undefined;
+			var remote = undefined;
 			
-			if(a[i].type == "input"){
-				$('#'+rankinput).append("<input type='text' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"' placeholder='"+placeholder+"' />");
-			}else if(a[i].type == "password"){
-				$('#'+rankinput).append("<input type='password' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"'/>");
-			}else if(a[i].type == "checkbox"){
+			if(typeof(a[i].notEmpty) == 'object'){
+				 var notEmpty={notEmpty:a[i].notEmpty};
+			}
+			
+			if(typeof(a[i].stringLength) == 'object'){
+				var stringLength={stringLength:a[i].stringLength};
+			}
+			
+			if(typeof(a[i].regexp) == 'object'){
+				var regexp={regexp:a[i].regexp};
+			}
+			
+			if(typeof(a[i].identical) == 'object'){
+				var identical={identical:a[i].identical};
+			}
+			
+			if(typeof(a[i].different) == 'object'){
+				var different={different:a[i].different};
+			}
+			
+			if(typeof(a[i].emailAddress) == 'object'){
+				var emailAddress={emailAddress:a[i].emailAddress};
+			}
+			
+			if(typeof(a[i].threshold) == 'number'){
+				var threshold={threshold:a[i].threshold};
+			}
+			
+			if(typeof(a[i].remote) == 'object'){
+				var remote={remote:a[i].remote};
+			}
+
+			//===========valid=============
+			if(type == "input"){
+				$('#'+rankinput).append("<input type='text' value='"+dom_value+"' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"' placeholder='"+placeholder+"' />");
+				var myempty={};
+				validatorsjson=$.extend(myempty,notEmpty,stringLength,regexp,identical,different,emailAddress,threshold,remote);
+				validators={validators:validatorsjson};
+				
+				if(jQuery.isEmptyObject(validatorsjson)){
+					validators=validatorsjson;
+				}else{
+					validators={validators:validatorsjson};
+					validators=JSON.stringify(validators);
+					feild='{"'+dom_name+'":'+validators+'}';
+					feildjson=JSON.parse(feild);
+					myvalid=$.extend(myvalid,feildjson);
+				}
+				
+				
+			}else if(type == "password"){
+				$('#'+rankinput).append("<input type='password' value='"+dom_value+"' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"'/>");
+			}else if(type == "checkbox"){
 				var checkboxid = "chb"+rankinput;
 				if(a[i].inline == "true"){
 					inline = "checkbox-inline";
@@ -82,10 +147,15 @@
 				}
 				$('#'+rankinput).append("<div id='"+checkboxid+"' class='checkbox' ></div>");
 				for(var n in a[i].option) {
-					$('#'+checkboxid).append("<label class='"+inline+"'><input type='checkbox' value='"+n+"' name='"+a[i].name+"' />"+a[i].option[n]+"</label>");
+					if(a[i].checked[n] == a[i].option[n]){
+						var checked = 'checked';
+					}else{
+						var checked = '';
+					}
+					$('#'+checkboxid).append("<label class='"+inline+"'><input type='checkbox' value='"+n+"' name='"+dom_name+"' "+checked+" />"+a[i].option[n]+"</label>");
 				}
 				
-			}else if(a[i].type == "radio"){
+			}else if(type == "radio"){
 				var radioid = "chb"+rankinput;
 				if(a[i].inline == "true"){
 					inline = "radio-inline";
@@ -94,31 +164,58 @@
 				}
 				$('#'+rankinput).append("<div id='"+radioid+"' class='radio' ></div>");
 				for(var n in a[i].option) {
-					$('#'+radioid).append("<label class='"+inline+"'><input type='radio' value='"+n+"' name='"+a[i].name+"' />"+a[i].option[n]+"</label>");
+					if(a[i].checked == n){
+						var checked = 'checked';
+					}else{
+						var checked = '';
+					}
+					$('#'+radioid).append("<label class='"+inline+"'><input type='radio' value='"+n+"' name='"+dom_name+"' "+checked+" />"+a[i].option[n]+"</label>");
 				}
-			}else if(a[i].type == "select"){
+			}else if(type == "select"){
 				if(a[i].multiple=="true"){
 					var multiple="multiple";
 				}else{
 					var multiple="";
 				}
-			
-				$('#'+rankinput).append("<select id='"+a[i].name+"' "+multiple+" class='form-control "+sizecol+"' name='"+a[i].name+"'></select>");
+
+				$('#'+rankinput).append("<select id='"+dom_id+"' "+multiple+" class='form-control "+sizecol+"' name='"+dom_name+"'></select>");
 				for(var m in a[i].option) {
-					$('#'+a[i].name).append("<option value="+m+">"+a[i].option[m]+"</option>");
+					if(a[i].checked == m){
+						
+						var checked = 'selected';
+					}else{
+						
+						var checked = '';
+					}
+					$('#'+dom_name).append("<option value="+m+" "+checked+">"+a[i].option[m]+"</option>");
 				}
-			}else if(a[i].type == "button"){
-				
-				$('#'+rankinput).append("<button type='submit' class='form-control btn btn-primary' id='"+a[i].name+"' name='"+a[i].name+"'>Sign in</button>");
-			}else if(a[i].type == "textarea"){
-				$('#'+rankinput).append("<textarea class='form-control' id='"+a[i].name+"' name='"+a[i].name+"' rows='3'></textarea>");
-			}else if(a[i].type == "verify"){
+
+			}else if(type == "submit"){
+				$('#'+rankinput).append("<button type='submit' class='form-control btn btn-primary' id='"+dom_id+"' >"+a[i].show+"</button>");
+			}else if(type == "button"){
+				$('#'+rankinput).append("<button type='button' class='form-control btn btn-primary' id='"+dom_id+"' name='"+dom_name+"'>"+a[i].name+"</button>");
+			}else if(type == "textarea"){
+				$('#'+rankinput).append("<textarea class='form-control' id='"+dom_id+"' name='"+dom_name+"' rows='3'></textarea>");
+			}else if(type == "verify"){
 				var verifyDiv = 'verifyDiv_'+dom_id;
 				$('#'+rankinput).append("<div class='input-group' ><div class='input-group-addon' style='padding:0;'><img width='100px' height='32px' src='"+a[i].imgsrc+"' /></div><input type='text' class='form-control' /></div>");
+			}else if(type == "fileinput"){
+				$('#'+rankinput).append("<input type='file' name='"+dom_name+"' id='"+dom_id+"' multiple class='file-loading' />");
+				$("#"+dom_name).fileinput({'language':'zh','showUpload':false, 'previewFileType':'any'});
 			}else{
-				alert(a[i].type);
+				alert(type);
 			}
 		}
-		
+		if(!jQuery.isEmptyObject(myvalid)){
+			$(this).bootstrapValidator({
+				message: 'This value is not valid',
+				feedbackIcons: {
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+				fields: myvalid
+			});	
+		}
 	}
 })(jQuery);

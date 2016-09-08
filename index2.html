@@ -1,31 +1,54 @@
-<script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>HTML5çš„æ ‡é¢˜</title>
+<head>
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/css/fileinput.min.css" />
+<link rel="stylesheet" href="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
+
+
+<script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/fileinput.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/locales/zh.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/language/zh_CN.min.js"></script>
+
 <script src="./btFormBuilder.js"></script>
+
+</head>
+<body>
 <div class="col-sm-6 col-sm-offset-2" >
 <form id="test" role="form" rank="false" class="form-horizontal" labcol=3 feild=6 />
 </form>
 </div>
+</body>
 <script>
 var obj = {option1:"test1",option2:"test2",option3:"test3"}
 
 $('#test').btFormBuilder({
 	columns:[{
-		label:"ĞÕÃû",
+		label:"å§“å",
 		name:"xingming",
 		type:"input",
-		placeholder:"1111111111"
+		placeholder:"123"
 	},{
-		label:"ÊÖ»ú",
+		label:"æ–‡ä»¶ä¸Šä¼ ",
+		name:"fileinput",
+		type:"fileinput"
+		
+	},{
+		label:"æ‰‹æœº",
 		name:"shouji",
 		type:"input"
 	},{
-		label:"ÃÜÂë",
+		label:"å¯†ç ",
 		name:"password",
 		type:"password",
 		placeholder:"1111111111"
 	},{
-		label:"µç»°",
+		label:"ç”µè¯",
 		name:"dianhua",
 		type:"input"
 	},{
@@ -33,40 +56,52 @@ $('#test').btFormBuilder({
 		name:"qq",
 		type:"input"
 	},{
-		label:"ÓÊÏä",
+		label:"é‚®ç®±",
 		type:"input",
 		name:"email"
 	},{
-		label:"ÊÇ·ñ¹Ø¼üÈË",
+		label:"æ˜¯å¦å…³é”®äºº",
 		name:"shifugjr",
 		type:"checkbox",
 		inline:"true",
-		option:{0:"ÊÇ",1:"·ñ"}
+		option:{0:"æ˜¯",1:"å¦"},
+		checked:{1:"å¦"}
 	},{
-		label:"Ö°Î»",
+		label:"èŒä½",
 		name:"zhiwei",
-		type:"input"
+		type:"select",
+		option:obj,
+		checked:'option2'
 	},{
-		label:"ÉúÈÕ",
+		label:"ç”Ÿæ—¥",
 		name:"shengri",
 		type:"input"
 		
 	},{
-		label:"ÊÇ·ñµÚÒ»ÁªÏµÈË",
+		label:"æ˜¯å¦ç¬¬ä¸€è”ç³»äºº",
 		name:"shfdylxr",
-		type:"select",
-		option:{0:"ÊÇ",1:"·ñ"}
+		type:"radio",
+		inline:"true",
+		option:{0:"æ˜¯",1:"å¦"},
+		checked:'1'
 	},{
-		label:"ÑéÖ¤Âë",
+		label:"éªŒè¯ç ",
 		name:"verify",
 		imgsrc:"1.jpg",
 		type:"verify"
 	},{
+		show:"submit",
+		type:"submit"
+	},{
 		label:"",
-		name:"button",
+		name:"button2",
 		type:"button"
 	}]
 });
 
 
+
+
+
 </script>
+</html>
