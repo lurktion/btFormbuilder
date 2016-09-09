@@ -76,7 +76,7 @@
 			}else{
 				placeholder='';
 			}
-			//==========valid==============
+			//==========validstart==============
 			var notEmpty = undefined;
 			var stringLength = undefined;
 			var regexp = undefined;
@@ -118,7 +118,7 @@
 				var remote={remote:a[i].remote};
 			}
 
-			//===========valid=============
+			//===========validend=============
 			if(type == "input"){
 				$('#'+rankinput).append("<input type='text' value='"+dom_value+"' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"' placeholder='"+placeholder+"' />");
 				var myempty={};
@@ -128,7 +128,7 @@
 				if(jQuery.isEmptyObject(validatorsjson)){
 					validators=validatorsjson;
 				}else{
-					validators={validators:validatorsjson};
+					
 					validators=JSON.stringify(validators);
 					feild='{"'+dom_name+'":'+validators+'}';
 					feildjson=JSON.parse(feild);
@@ -138,6 +138,54 @@
 				
 			}else if(type == "password"){
 				$('#'+rankinput).append("<input type='password' value='"+dom_value+"' id='"+dom_id+"' class='form-control "+sizecol+"' name='"+dom_name+"'/>");
+				var myempty={};
+				if(a[i].repwd==true){
+					notEmpty={notEmpty:{message: '用户名不能为空'}};
+				}
+				
+				validatorsjson=$.extend(myempty,notEmpty,stringLength,regexp,identical,different,emailAddress,threshold,remote);
+				validators={validators:validatorsjson};
+				
+				if(jQuery.isEmptyObject(validatorsjson)){
+					validators=validatorsjson;
+				}else{
+					
+					validators=JSON.stringify(validators);
+					feild='{"'+dom_name+'":'+validators+'}';
+					feildjson=JSON.parse(feild);
+					myvalid=$.extend(myvalid,feildjson);
+				}
+				if(a[i].repwd==true){
+					var choseid = 'repwd_'+a[i].name;
+					var repwd_dom_id='repwd_'+dom_id;
+					var repwd_dom_name='repwd_'+dom_name;
+					
+					$(this).append("<div class='form-group' id='"+choseid+"'>");
+					if (typeof(labeltext) === "string"){
+							var labeltext = "再次输入密码";
+							$('#'+choseid).append("<label class='"+rank+"' for="+repwd_dom_id+">"+labeltext+"</label>");
+						}else{
+							$('#'+choseid).append("<label class='"+rank+"' for="+repwd_dom_id+"></label>");
+					}
+					
+					if($(this).attr('rank') === "false"){
+						var rankinput = "div_"+choseid;
+						
+						$('#'+choseid).append("<div class='col-sm-"+feildNum+"' id='"+rankinput+"'>");
+					}else{
+						var rankinput = choseid;
+					}
+					
+					$('#'+rankinput).append("<input type='password' value='"+dom_value+"' id='"+repwd_dom_id+"' class='form-control "+sizecol+"' name='"+repwd_dom_name+"'/>");
+					
+					validators={validators:{notEmpty:{message: '密码不能为空'},identical:{field:dom_name,message:'两次密码不一致'}}};
+					validators=JSON.stringify(validators);
+					feild='{"'+repwd_dom_name+'":'+validators+'}';
+					feildjson=JSON.parse(feild);
+					myvalid=$.extend(myvalid,feildjson);
+					//alert(JSON.stringify(myvalid));
+					
+				}
 			}else if(type == "checkbox"){
 				var checkboxid = "chb"+rankinput;
 				if(a[i].inline == "true"){
