@@ -1,0 +1,142 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/css/fileinput.min.css" />
+<link rel="stylesheet" href="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" />
+<script src="http://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/fileinput.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap-fileinput/4.3.4/js/locales/zh.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/language/zh_CN.min.js"></script>
+<script src="./btFormBuilder.js"></script>
+</head>
+<style>
+body{
+font-family:"繁体";
+font-size:17px;}
+	table{width:60%;
+		text-align:center;
+	}
+</style>
+<body>
+<center><h3>功能介绍</h3></center>
+<a class="glyphicon glyphicon-arrow-right" href="./document.html">查看示例页面</a>
+	columns属性介绍:
+	在插件中，大家不难看出所有需要自定义表单里的标签元素的属性都以json的数据格式存在columns的数组中.具体属性有以下几种:
+	<ul>
+		<li><b>type</b>--类型属性
+		<p>
+			对于标签类型的描述，从btformbuilder.js中进行了整理。用法 columns:[{type:'input'}]
+			</p>
+		<table border>
+		<tr><th>type</th><th>说明</th></tr>
+		<tr><td>input</td><td>指定类型为Input的输入框</td></tr>
+		<tr><td>password</td><td>指定类型为password的输入框</td></tr>
+		<tr><td>checkbox</td><td>指定类型为checkbox的复选框</td></tr>
+		<tr><td>radio</td><td>指定类型为radio的单选框</td></tr>
+		<tr><td>select</td><td>指定类型为select的下拉框</td></tr>
+		<tr><td>submit</td><td>指定类型为submit的提交按钮</td></tr>
+		<tr><td>button</td><td>指定类型为button的提交按钮</td></tr>
+		<tr><td>textarea</td><td>指定类型为textarea的文本输入域</td></tr>
+		<tr><td>verify</td><td>指定类型为verify的输入框,用来做验证码</td></tr>
+		<tr><td>fileinput</td><td>指定类型为file的文件上传</td></tr>
+		<tr><td>line</td><td>指定类型为line的一条水平线</td></tr>
+		<tr><td>hidden</td><td>指定类型为hidden的隐藏域</td></tr>
+		<tr><td>date</td><td>指定类型为date的日期选择框</td></tr>
+	</table>
+		</li><li>
+		<b>label</b>--标记属性
+		<p>
+			对表格内的某个标签进行标记。用法columns:[{label:'用户名:',type:'input'}]
+		<p>
+			注：label：'值自定义'
+		</p>
+		
+		</li>
+		<li><b>name</b>--名称属性
+			<p>
+				某个标签的name,可用来传值给后台进行数据交互。用法columns:[{label:'用户名',type:'input',name:'username'}]
+			</p>
+			<p>
+				注：name:'值自定义'，且为英文不能使用汉字、或数字为开头
+			</p>
+		</li>
+		<li><b>placeholder</b>--内容提示属性
+		<p>
+			对某个输入标签的内容进行虚拟提示。用法columns:[{label:'用户名:',name:'username',type:'input',placeholder:'请输入用户名'}]
+			</p>
+			<p>
+				注：placeholder:'值自定义'，默认为空,则不进行内容提示
+			</p>
+		</li>
+		<li>
+		<b>value</b>--值属性
+			<p>
+				设定某个标签的value默认值。用法columns::[{label:'用户名:',name:'username',type:'input',value:'abcde'}]
+			</p>
+			<p>
+				注：value:'值自定义',且为英文不能使用汉字、或数字为开头，或与后台进行交互后可存入数据
+			</p>
+		</li>
+		<li>
+		<b>disabled</b>--锁定属性
+			<p>
+				对某个标签进行锁定，锁定后不可进行标签的内容更改。用法columns:[{
+				disabled:'true'}]
+			</p>
+			<p>
+				注：disabled:'true',默认为false，即可进行内容更改。
+			</p>
+		</li>
+		<li>
+		<b>inline</b>--同行属性
+			<p>
+				定义是否同行显示,用于以复选、点选框类型属性的标签。用法columns:[{
+				label:'性别：',name:'sex',type:'radio',inline:'true'}]
+			</p>
+			<p>
+				注：inline:'true',设置为true时，表示同行显示。
+			</p>
+		</li>
+		<li>
+		<b>option</b>--选项属性
+			<p>
+				设置某个类型的标签如单选框、复选框或下拉框的选项。用法var json={'1':'北京','2':'天津','3':'上海','4':'重庆'} columns:[{label:'请选择地址：',name:'weizhi',type:'select',option:json}]
+			</p>
+			<p>
+				注：option：'值为数组或者JSON对象'，给定值对应的名称。提交后返回name的对应数值。
+			</p>
+		</li>
+		<li>
+		<b>optiongroup</b>--二级联动属性
+			<p>
+				对标签为下拉框的选项值进行设置，于下级下拉框进行数据联动。用法 var fvalue = [{"name":"中国","child":[{"name":"北京"},{"name":"上海"}]},{"name":"日本","child":[{"name":"东京"}]},{"name":"英国","child":[{"name":"伦敦"}]},{"name":"法国","child":[{"name":"巴黎"},{"name":"纽约"}]}] columns:[{label:'城市',name'country',type:'select',optiongroup:fvalue}]
+			</p>
+			<p>
+				注:optiongroup:'二维数组可自定义',可自定义二维数组或者获取后台数据。该用法并同下的parents属性使用,<a class="glyphicon glyphicon-eye-open" href="./liandong.html" target="_blank">点击查看联动页面</a>
+			</p>
+		</li>
+		<li>
+		<b>parents</b>--二级联动属性
+			<p>
+				对标签为下拉框的选项值进行设置,于上级下拉框进行数据联动。用法 数据同上。columns:[{
+				label:'城市',name:'city',type:'select',parents:'country'}]
+			</p>
+			<p>
+				注：parents:'值为上级的name',用于同上级数据实现联动效果,<a class="glyphicon glyphicon-eye-open" href="./liandong.html" target="_blank">点击查看联动页面</a>
+			</p>
+		</li>
+		<li><b>imgsrc</b>--图片路径属性(此处引用php验证码类)
+		<p>对类型属性为verify验证码的标签进行设置，设置类的路径。用法columns:[{label:'验证码',type:'verify',imgsrc:'验证码类的路径'}]</p>
+		<p>注：imgsrc:'值为验证码类的路径',根据不同语言开发后台模块。自己搭配相对应验证码制作接口。此处以php验证码类为例</p>
+		</li>
+		<li>
+		<b>repwd</b>--二次确认密码
+		<p>对标签类型为password的密码框进行设置,用来生成一个二次确认密码的输入框。用法columns:[{label:'密码',name:'pwd',type:'password',repwd:true}]</p>
+		<p>注：repwd:'true',默认为false,当需要做二次密码验证的时候可设为true,将会达到一个再次验证密码的效果</p>
+		</li>
+	</ul>
+</body>
+</html>
